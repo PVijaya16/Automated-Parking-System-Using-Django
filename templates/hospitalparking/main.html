@@ -1,0 +1,270 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADMIN | HOME</title>
+    <link rel="stylesheet" href="{% static 'css/studentregistration.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #f1f1f1;
+            border-top: 1px solid #ccc;
+            margin-top: auto;
+        }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            background-color: #f8f9fa;
+            padding: 10px 20px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .navbar img {
+            width: 50px;
+            margin-right: 20px;
+        }
+
+        .navbar-title {
+            font-size: 24px;
+            margin: 0;
+        }
+
+        .navbar .home,
+        .navbar .logout {
+            margin-left: auto;
+            text-decoration: none;
+            color: #007bff;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .navbar .home {
+            background-color: #28a745;
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar .home:hover {
+            background-color: #218838;
+        }
+
+        .navbar .logout {
+            display: flex;
+            align-items: center;
+            background-color: #e2e6ea;
+        }
+
+        .navbar .logout:hover {
+            background-color: #d6d8db;
+        }
+
+        .navbar .home i,
+        .navbar .logout i {
+            margin-right: 8px;
+        }
+
+        .welcome-message {
+            margin-left: 20px;
+            padding-left: 20px;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-evenly;
+            margin-top: 40px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        /* General Button Style */
+        .button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #333;
+            background-color: #f8f9fa;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 30px 25px;
+            width: 150px;
+            height: 150px;
+            box-sizing: border-box;
+            margin: 10px;
+            transition: background-color 0.3s, box-shadow 0.3s, transform 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .button:hover {
+            background-color: #e2e6ea;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            transform: scale(1.05);
+        }
+
+        .button i {
+            font-size: 30px;
+            margin-bottom: 12px;
+        }
+
+        .button img {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 12px;
+        }
+
+        .navbar .home i,
+        .navbar .logout i {
+            margin-right: 8px;
+        }
+
+        .button-container a {
+            flex: 1 0 200px; /* Make buttons responsive */
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Specific button styles */
+        .home-button {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .home-button:hover {
+            background-color: #218838;
+            transform: scale(1.1);
+        }
+
+        .registered-users {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .registered-users:hover {
+            background-color: #0056b3;
+            transform: scale(1.1);
+        }
+
+        .add-routes {
+            background-color: #fd7e14;
+            color: white;
+        }
+
+        .add-routes:hover {
+            background-color: #e67e00;
+            transform: scale(1.1);
+        }
+
+        .bus-pass {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .bus-pass:hover {
+            background-color: #c82333;
+            transform: scale(1.1);
+        }
+
+        .highlighted-email {
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        h2 {
+            font-size: 30px;
+            color: #333;
+            margin-bottom: 40px;
+        }
+
+        .time-display {
+            font-size: 18px;
+            font-weight: bold;
+            color: #007bff;
+            margin-left: 20px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <img src="{% static 'img/headicon.gif' %}" alt="Smart Bus Pass" class="navbar-icon">
+        <h2 class="navbar-title"><a href="#">Automated Parking</a></h2>
+        <a href="{%url 'AdminHome'%}" class="home">
+            <i class="fas fa-home"></i> HOME
+        </a>
+        <div class="welcome-message">
+            {% if user_name %}
+                <span class="highlighted-email">Welcome, {{ user_name }}!</span><br>
+            {% else %}
+                <span>Please log in</span>
+            {% endif %}
+        </div>
+        <!-- Added time display here -->
+        <div id="time" class="time-display"></div>
+        
+        <a href="{%url 'adminlogout'%}" class="logout">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+    </div>
+
+    <div class="container mt-4" style="text-align: center;">
+        <h2>Welcome To Admin Home Page</h2>
+        <div class="button-container">
+            <a href="{%url 'hospital_parking_first_floor_sloots'%}" class="button home-button">
+                <img src="{% static 'img/4394571.png' %}" alt="Home" style="width: 40px; height: 40px; margin-bottom: 10px;">
+                first floor
+            </a>
+            <a href="{%url 'hospital_parking_second_floor_slots'%}" class="button registered-users">
+                <img src="{% static 'img/906805.png' %}" alt="Home" style="width: 40px; height: 40px; margin-bottom: 10px;">
+                second floor
+            </a>
+
+            <a href="{%url 'hospital_parking_third_floor_slots'%}" class="button registered-users">
+                <img src="{% static 'img/ru.png' %}" alt="Home" style="width: 40px; height: 40px; margin-bottom: 10px;">
+                third floor
+            </a>
+
+
+  
+
+   
+
+
+        </div>
+    </div>
+
+    <footer class="footer">
+        <span>&copy; Automated Vehicle Parking. All rights reserved.</span>
+    </footer>
+
+    <script>
+        function updateIST() {
+            var now = new Date();
+
+            // Convert current time to Indian Standard Time (IST)
+            var options = {
+                timeZone: 'Asia/Kolkata', // IST time zone
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            };
+
+            var istTime = new Intl.DateTimeFormat('en-GB', options).format(now);
+            document.getElementById('time').textContent =istTime + ' [IST]';
+        }
+
+        // Update time every second
+        setInterval(updateIST, 1000);
+        updateIST(); // Initial call to display the time immediately
+    </script>
+</body>
+
+</html>

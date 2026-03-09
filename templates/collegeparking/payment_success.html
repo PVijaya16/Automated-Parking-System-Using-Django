@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Success</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #f1f1f1;
+            border-top: 1px solid #ccc;
+            margin-top: auto;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            padding: 12px 30px;
+            font-size: 16px;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+        h1 {
+            color: #28a745;
+        }
+
+        p {
+            font-size: 18px;
+            color: #333;
+        }
+
+        .thank-you {
+            margin-top: 30px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .feedback-form {
+            margin-top: 30px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        .feedback-form select,
+        .feedback-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .feedback-form button {
+            background-color: #007bff;
+            border-color: #007bff;
+            padding: 12px 30px;
+            font-size: 16px;
+            color: white;
+        }
+
+        .feedback-form button:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+        .skip-button {
+            background-color: #6c757d;
+            border-color: #6c757d;
+            padding: 12px 30px;
+            font-size: 16px;
+            color: white;
+            margin-top: 15px;
+        }
+
+        .skip-button:hover {
+            background-color: #5a6268;
+            border-color: #5a6268;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center text-success">Payment Successful!</h1>
+        <div class="mt-4">
+            <p>Your payment has been confirmed, and the parking slot has been checked out successfully.</p>
+            <p>The parking slot ID you used has been exited and is now available for the next vehicle.</p>
+            <p>A confirmation email has been sent to your email address.</p>
+        </div>
+        <a href="{% url 'userhome' %}" class="btn btn-primary">Go to Dashboard</a>
+
+        <div class="thank-you">
+            <p>Thank you for using our parking service! We appreciate your business.</p>
+        </div>
+
+        
+
+            <!-- Skip button to go to dashboard -->
+            <a href="{% url 'userhome' %}" class="btn skip-button">Skip & Go to Dashboard</a>
+        </div>
+    </div>
+
+</body>
+
+</html>

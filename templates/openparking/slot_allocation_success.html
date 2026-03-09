@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parking Slot Receipt</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .receipt-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 2px solid #28a745;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #ffffff, #e9f8ec);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            font-family: 'Arial', sans-serif;
+        }
+        .receipt-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .receipt-header h1 {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .receipt-header p {
+            color: #6c757d;
+            font-size: 14px;
+        }
+        .receipt-details {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8fff6;
+            border: 1px solid #28a745;
+            border-radius: 8px;
+        }
+        .receipt-details p {
+            font-size: 16px;
+            margin: 5px 0;
+        }
+        .receipt-details h4 {
+            color: #155724;
+            font-size: 18px;
+            margin-bottom: 10px;
+            text-decoration: underline;
+        }
+        .qr-code-section {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .qr-code-section img {
+            width: 150px;
+            height: 150px;
+        }
+        .qr-code-section p {
+            font-size: 14px;
+            color: #6c757d;
+            margin-top: 10px;
+        }
+        .instructions-section {
+            margin-top: 30px;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #333;
+        }
+        .instructions-section h4 {
+            margin-bottom: 10px;
+            color: #343a40;
+            font-weight: bold;
+        }
+        .instructions-section ul {
+            padding-left: 20px;
+        }
+        .instructions-section ul li {
+            margin-bottom: 8px;
+        }
+        .receipt-button-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .btn-action {
+            background-color: #28a745;
+            color: white;
+            font-size: 16px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .btn-action:hover {
+            background-color: #218838;
+        }
+        .text-muted {
+            font-size: 14px;
+        }
+
+        /* Fixed "Go to Dashboard" button at the top */
+        .fixed-button-container-top {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000; /* Ensures the button stays on top */
+        }
+
+        /* Fixed "Go to Dashboard" button at the bottom */
+        .fixed-button-container-bottom {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000; /* Ensures the button stays on top */
+        }
+
+        .fixed-button-container a {
+            background-color: #007bff;
+            color: white;
+            font-size: 16px;
+            padding: 12px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .fixed-button-container a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="receipt-container" id="receipt">
+        <div class="receipt-header">
+            <h1>Parking Slot Receipt</h1>
+            <p class="text-muted">Thank you for choosing our parking service!</p>
+        </div>
+        
+        <div class="receipt-details">
+            <h4>Slot Details:</h4>
+            <p><strong>Slot ID:</strong> {{ slot.slot_id }}</p>
+            <p><strong>Category:</strong> {{ slot.category }}</p>
+            <p><strong>Vehicle Type:</strong> {{ slot.get_vehicle_type_display }}</p>
+            <p><strong>Vehicle Number:</strong> {{ vehicle_number }}</p>
+            <p><strong>Entry Time:</strong> {{ entry_time }}</p>
+        </div>
+
+        <div class="qr-code-section">
+            <h4>QR Code:</h4>
+            <img src="{{ qr_code_url }}" alt="Parking QR Code">
+            <p>Scan this code for your parking slot details.</p>
+        </div>
+
+        {% if email_sent %}
+        <div class="text-center mt-3">
+            <p class="text-info">Parking details have been emailed to you. Please check your inbox.</p>
+        </div>
+        {% endif %}
+
+        <div class="instructions-section">
+            <h4>Important Instructions:</h4>
+            <ul>
+                <li>Park your vehicle only in the designated slot mentioned above.</li>
+                <li>Keep this receipt and QR code accessible for verification during your visit.</li>
+                <li>Avoid sharing your QR code with unauthorized individuals.</li>
+                <li>If you need to extend your parking time, contact customer support immediately.</li>
+                <li>Secure your vehicle and belongings; the management is not responsible for theft or damage.</li>
+                <li>Exit the parking lot within the allotted time to avoid additional charges.</li>
+            </ul>
+        </div>
+
+        <div class="receipt-button-container">
+            <button class="btn-action" onclick="downloadReceipt()">Print Receipt</button>
+        </div>
+    </div>
+
+    <!-- Fixed "Go to Dashboard" button at the top -->
+
+
+    <!-- Fixed "Go to Dashboard" button at the bottom -->
+    <div class="fixed-button-container-bottom">
+        <a href="{% url 'userhome' %}" class="btn btn-primary">Go to Dashboard</a>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script>
+        function downloadReceipt() {
+            const element = document.getElementById('receipt'); // Target the full receipt container
+            const options = {
+                margin: 10,
+                filename: 'Parking_Slot_Receipt.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 3 }, // Higher scale for better resolution
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                pagebreak: { mode: ['avoid-all', 'css'] }
+            };
+            html2pdf().set(options).from(element).save();
+        }
+    </script>
+</body>
+</html>

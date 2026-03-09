@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout Success</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f4f7fa;
+            font-family: 'Arial', sans-serif;
+        }
+        .container {
+            max-width: 750px;
+            margin: 50px auto;
+            padding: 30px;
+            background: #ffffff;
+            border: 2px solid #28a745;
+            border-radius: 10px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease-in-out;
+        }
+        .container:hover {
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            font-size: 2.4rem; /* Smaller font size for the main heading */
+            color: #28a745;
+            text-align: center;
+            font-weight: bold;
+        }
+        .receipt-header {
+            border-bottom: 2px solid #28a745;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .receipt-details {
+            margin-bottom: 20px;
+            font-size: 1rem; /* Slightly smaller font for the details */
+        }
+        .receipt-details h4 {
+            color: #28a745;
+            font-size: 1.2rem; /* Increased size and color for emphasis */
+            font-weight: bold;
+            text-decoration: underline;
+            margin-bottom: 10px;
+        }
+        .receipt-details p {
+            margin: 8px 0;
+            font-size: 0.95rem; /* Smaller font size for better spacing */
+        }
+        .thank-you-message {
+            background-color: #d4edda;
+            padding: 20px;
+            border-radius: 10px;
+            color: #155724;
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 30px;
+        }
+        .thank-you-message p {
+            font-size: 1rem; /* Smaller font for the thank you message */
+            margin: 0;
+        }
+        .btn {
+            padding: 15px 25px;
+            font-size: 1rem; /* Smaller button font size */
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+            border: none;
+        }
+        .btn-success:hover {
+            background-color: #218838;
+            transform: translateY(-3px);
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+        }
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            transform: translateY(-3px);
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="receipt-header">
+            <h1>Checkout Successful</h1>
+            <p class="text-muted">Thank you for choosing our parking service!</p>
+        </div>
+
+        <div class="receipt-details">
+            <h4>Slot Details:</h4>
+            <p><strong>Slot ID:</strong> {{ slot.slot_id }}</p>
+            <p><strong>Vehicle Number:</strong> {{ vehicle_number }}</p>
+            <p><strong>Entry Time:</strong> {{ entry_time }}</p>
+            <p><strong>Exit Time:</strong> {{ exit_time }}</p>
+            <p><strong>Duration:</strong> {{ duration_minutes }} minutes</p>
+            <p><strong>Fare:</strong> ₹{{ fare }}</p>
+        </div>
+
+        <p class="text-warning text-center">Please complete your payment to finalize the checkout process.</p>
+
+        <form method="POST" action="{% url 'collegeconfirmpayment' slot.slot_id %}">
+            {% csrf_token %}
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-success">Make Payment</button>
+            </div>
+        </form>
+
+        <div class="text-center mt-3">
+            <a href="{'%url 'userhome'%'}" class="btn btn-secondary">Cancel</a>
+        </div>
+
+        <!-- Thank You Message Section -->
+        <div class="thank-you-message">
+            <p>We sincerely appreciate your choice to use our parking service today!</p>
+            <p>We are grateful for your trust, and we can't wait to welcome you back again soon.</p>
+            <p>We look forward to serving you again. Your satisfaction is our priority!</p>
+            <p>Thank you, and have a fantastic day ahead! 😊</p>
+        </div>
+
+    </div>
+
+</body>
+</html>

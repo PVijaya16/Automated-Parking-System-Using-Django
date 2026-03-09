@@ -1,0 +1,363 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parking Fare Structure</title>
+    <link rel="stylesheet" href="{% static 'css/studentregistration.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #f1f1f1;
+            border-top: 1px solid #ccc;
+            margin-top: auto;
+        }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            background-color: #f8f9fa;
+            padding: 10px 20px;
+            border-bottom: 1px solid #ccc;
+            position: relative;
+            z-index: 10;
+            /* Navbar stays on top */
+        }
+
+        .navbar img {
+            width: 50px;
+            margin-right: 20px;
+        }
+
+        .navbar-title {
+            font-size: 24px;
+            margin: 0;
+        }
+
+        .navbar .home,
+        .navbar .logout {
+            margin-left: auto;
+            text-decoration: none;
+            color: #007bff;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .navbar .home {
+            background-color: #28a745;
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar .home:hover {
+            background-color: #218838;
+        }
+
+        .navbar .logout {
+            display: flex;
+            align-items: center;
+            background-color: #e2e6ea;
+        }
+
+        .navbar .logout:hover {
+            background-color: #d6d8db;
+        }
+
+        .navbar .home i,
+        .navbar .logout i {
+            margin-right: 8px;
+        }
+
+        .welcome-message {
+            margin-left: 20px;
+            padding-left: 20px;
+        }
+
+        .time-display {
+            margin-left: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-evenly;
+            margin-top: 40px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        /* Rope Hanging Effect */
+        .hanging-table-container {
+            position: relative;
+            margin-top: 30px;
+            /* Move table higher */
+            padding-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+            /* Table and ropes are below the navbar */
+        }
+
+        .rope {
+            position: absolute;
+            width: 10px;
+            height: 400px;
+            /* Adjusted rope length */
+            background: #333;
+            z-index: 0;
+            /* Ensure ropes stay behind the navbar */
+            transform-origin: top center;
+            animation: rope-move 3s ease-in-out infinite;
+            /* Updated animation */
+        }
+
+        .rope-left {
+            left: 25%;
+            top: -200px;
+            /* Adjust position to match rope */
+        }
+
+        .rope-right {
+            left: 75%;
+            top: -200px;
+            /* Adjust position to match rope */
+        }
+
+        /* Table Styling */
+        table {
+            width: 60%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            background-color: #fff;
+            position: relative;
+            transform: rotateX(10deg) rotateY(-5deg);
+            z-index: 2;
+            /* Table stays above ropes */
+            animation: table-move 3s ease-in-out infinite;
+            /* Updated animation */
+        }
+
+        /* Table Header Styling */
+        table th,
+        table td {
+            padding: 15px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        table thead {
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: white;
+            text-transform: uppercase;
+        }
+
+        table tbody tr:hover {
+            background: #f4f4f9;
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Rope sway animation (same direction as table) */
+        @keyframes rope-move {
+            0% {
+                transform: translateX(0);
+            }
+
+            50% {
+                transform: translateX(-15px);
+            }
+
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        /* Table floating animation (same direction as ropes) */
+        @keyframes table-move {
+            0% {
+                transform: translateX(0);
+            }
+
+            50% {
+                transform: translateX(-15px);
+            }
+
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        /* Additional Styling */
+        h2 {
+            font-size: 30px;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .highlighted-email {
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        .go-to-parking {
+            display: inline-block;
+            padding: 15px 30px;
+            margin-top: 40px;
+            /* Added space between button and footer */
+            text-decoration: none;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: background-color 0.3s, transform 0.3s ease;
+        }
+
+        .go-to-parking:hover {
+            background-color: #0056b3;
+            transform: scale(1.1);
+        }
+
+        .go-to-parking i {
+            margin-right: 12px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #f1f1f1;
+            border-top: 1px solid #ccc;
+            margin-top: 40px;
+            /* Add space between the footer and content */
+        }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .button-container {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <img src="{% static 'img/headicon.gif' %}" alt="Smart Bus Pass" class="navbar-icon">
+        <h2 class="navbar-title"><a href="#">Automated Parking</a></h2>
+
+        <div class="welcome-message">
+            {% if request.session.name %}
+            <span class="highlighted-email">Welcome, {{ request.session.name }}!</span><br>
+            <span>{{ request.session.email }}</span>
+            {% else %}
+            <span>Please log in</span>
+            {% endif %}
+        </div>
+
+        <div id="time" class="time-display"></div>
+
+
+        <a href="{% url 'adminlogout' %}" class="logout">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+    </div>
+
+    <br>
+    <div class="container mt-4" style="text-align: center;">
+        <h2>College Parking Fare Structure</h2>
+        <p>Below are the fare charges for parking. Please select the appropriate category and vehicle type.</p>
+
+        <div class="hanging-table-container">
+            <!-- Ropes attached to the back of the navbar -->
+            <div class="rope rope-left"></div>
+            <div class="rope rope-right"></div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Vehicle Type</th>
+                        <th>Parking Category</th>
+                        <th>Base Fare</th>
+                        <th>Additional Charges</th>
+                        <th>Total Fare</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2-Wheeler</td>
+                        <td>Faculty/Student</td>
+                        <td>Free</td>
+                        <td>None</td>
+                        <td>₹0</td>
+                    </tr>
+                    <tr>
+                        <td>4-Wheeler</td>
+                        <td>Faculty/Student</td>
+                        <td>Free</td>
+                        <td>None</td>
+                        <td>₹0</td>
+                    </tr>
+                    <tr>
+                        <td>2-Wheeler</td>
+                        <td>Visitor</td>
+                        <td>₹10 (1st hour)</td>
+                        <td>₹10 per extra hour</td>
+                        <td>₹10 + ₹10/hr</td>
+                    </tr>
+                    <tr>
+                        <td>4-Wheeler</td>
+                        <td>Visitor</td>
+                        <td>₹15 (1st hour)</td>
+                        <td>₹15 per extra hour</td>
+                        <td>₹15 + ₹15/hr</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <a href="{%url 'collegeparkingentry'%}" class="go-to-parking"><i class="fas fa-parking"></i> Go to Parking</a>
+    </div>
+
+    <footer class="footer">
+        <span>&copy; Automated Vehicle Parking. All rights reserved.</span>
+    </footer>
+
+    <script>
+        function updateIST() {
+            var now = new Date();
+
+            // Convert current time to Indian Standard Time (IST)
+            var options = {
+                timeZone: 'Asia/Kolkata', // IST time zone
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            };
+
+            var istTime = new Intl.DateTimeFormat('en-GB', options).format(now);
+            document.getElementById('time').textContent = istTime + ' [IST]';
+        }
+
+        // Update time every second
+        setInterval(updateIST, 1000);
+        updateIST();
+    </script>
+</body>
+
+</html>

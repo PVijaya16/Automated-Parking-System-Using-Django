@@ -1,0 +1,254 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currently Parked Vehicles</title>
+    
+    <!-- Font Awesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/studentregistration.css' %}">
+
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fc;
+            margin: 0;
+            padding: 0;
+        }
+
+        h2, h3, h4 {
+            text-align: center;
+            color: #333;
+            margin-top: 20px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #f1f1f1;
+            border-top: 1px solid #ccc;
+            margin-top: auto;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            align-items: center;
+            background-color: #f8f9fa;
+            padding: 10px 20px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .navbar img {
+            width: 50px;
+            margin-right: 20px;
+        }
+
+        .navbar-title {
+            font-size: 24px;
+            margin: 0;
+        }
+
+        .navbar .go-back-btn {
+            margin-left: auto;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .navbar .go-back-btn:hover {
+            background-color: #45a049;
+        }
+
+        .navbar .logout {
+            margin-left: 20px;
+            background-color: #e2e6ea;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .navbar .logout:hover {
+            background-color: #d6d8db;
+        }
+
+        .time-display {
+            margin-left: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        /* Table Styles */
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            border: 1px solid #ddd;
+            background-color: white;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #007bff; /* Changed from green */
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Occupied Status */
+        .occupied {
+            color: #007bff; /* Blue instead of green */
+            font-weight: bold;
+        }
+
+        /* Empty message */
+        p {
+            text-align: center;
+            color: #555;
+            font-size: 18px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <!-- Navbar with Go Back Button -->
+    <div class="navbar">
+        <img src="{% static 'img/headicon.gif' %}" alt="Smart Bus Pass" class="navbar-icon">
+        <h2 class="navbar-title"><a href="#">Automated Parking</a></h2>
+
+        <a href="javascript:history.back()" class="go-back-btn">
+            <i class="fas fa-arrow-left"></i> Go Back
+        </a>
+
+        <div id="time" class="time-display"></div>
+
+        <a href="{% url 'adminlogout' %}" class="logout">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+    </div>
+
+    <h2>Currently Parked Vehicles</h2>
+
+    <!-- Faculty Parking -->
+    <h3>Faculty Parking</h3>
+    <h4>2-Wheelers</h4>
+    <table>
+        <tr>
+            <th>Slot ID</th>
+            <th>Vehicle Number</th>
+            <th>Entry Time</th>
+            <th>Status</th>
+        </tr>
+        {% for record in faculty_2w %}
+        <tr>
+            <td>{{ record.slot_id }}</td>
+            <td>{{ record.vehicle_number }}</td>
+            <td>{{ record.entry_time }}</td>
+            <td class="occupied">Occupied</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="4">No faculty 2-wheelers are currently parked.</td></tr>
+        {% endfor %}
+    </table>
+
+    <h4>4-Wheelers</h4>
+    <table>
+        <tr>
+            <th>Slot ID</th>
+            <th>Vehicle Number</th>
+            <th>Entry Time</th>
+            <th>Status</th>
+        </tr>
+        {% for record in faculty_4w %}
+        <tr>
+            <td>{{ record.slot_id }}</td>
+            <td>{{ record.vehicle_number }}</td>
+            <td>{{ record.entry_time }}</td>
+            <td class="occupied">Occupied</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="4">No faculty 4-wheelers are currently parked.</td></tr>
+        {% endfor %}
+    </table>
+
+    <h3>Student Parking</h3>
+    <h4>2-Wheelers</h4>
+    <table>
+        <tr>
+            <th>Slot ID</th>
+            <th>Vehicle Number</th>
+            <th>Entry Time</th>
+            <th>Status</th>
+        </tr>
+        {% for record in student_2w %}
+        <tr>
+            <td>{{ record.slot_id }}</td>
+            <td>{{ record.vehicle_number }}</td>
+            <td>{{ record.entry_time }}</td>
+            <td class="occupied">Occupied</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="4">No student 2-wheelers are currently parked.</td></tr>
+        {% endfor %}
+    </table>
+
+    <h3>Visitor Parking</h3>
+    <h4>4-Wheelers</h4>
+    <table>
+        <tr>
+            <th>Slot ID</th>
+            <th>Vehicle Number</th>
+            <th>Entry Time</th>
+            <th>Status</th>
+        </tr>
+        {% for record in visitor_4w %}
+        <tr>
+            <td>{{ record.slot_id }}</td>
+            <td>{{ record.vehicle_number }}</td>
+            <td>{{ record.entry_time }}</td>
+            <td class="occupied">Occupied</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="4">No visitor 4-wheelers are currently parked.</td></tr>
+        {% endfor %}
+    </table>
+
+    <footer class="footer">
+        <span>&copy; Automated Vehicle Parking. All rights reserved.</span>
+    </footer>
+
+    <script>
+        function updateIST() {
+            var now = new Date();
+            var options = { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+            var istTime = new Intl.DateTimeFormat('en-GB', options).format(now);
+            document.getElementById('time').textContent = istTime + ' [IST]';
+        }
+        setInterval(updateIST, 1000);
+        updateIST();
+    </script>
+</body>
+</html>

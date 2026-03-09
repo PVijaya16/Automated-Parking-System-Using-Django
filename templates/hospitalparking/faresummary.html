@@ -1,0 +1,249 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Parking Fare</title>
+    <link rel="stylesheet" href="{% static 'css/studentregistration.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #f1f1f1;
+            border-top: 1px solid #ccc;
+            margin-top: auto;
+        }
+
+        /* Navbar Styling */
+        .navbar {
+            display: flex;
+            align-items: center;
+            background-color: #f8f9fa;
+            padding: 10px 20px;
+            border-bottom: 1px solid #ccc;
+            position: relative;
+            z-index: 10; /* Navbar stays on top */
+        }
+
+        .navbar img {
+            width: 50px;
+            margin-right: 20px;
+        }
+
+        .navbar-title {
+            font-size: 24px;
+            margin: 0;
+        }
+
+        .navbar .logout {
+            margin-left: auto;
+            text-decoration: none;
+            color: #007bff;
+            padding: 10px 15px;
+            border-radius: 5px;
+            background-color: #e2e6ea;
+        }
+
+        .navbar .logout:hover {
+            background-color: #d6d8db;
+        }
+
+        /* Hanging Ropes Animation */
+        .hanging-table-container {
+            position: relative;
+            margin-top: 30px;
+            padding-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: floatEffect 3s ease-in-out infinite alternate; /* Unified floating effect */
+        }
+
+        .rope {
+            position: absolute;
+            width: 8px;
+            height: 450px;
+            background: #333;
+            z-index: 0; /* Ensures ropes are behind the table */
+            top: -150px; /* Start ropes from behind the navbar */
+            animation: floatEffect 3s ease-in-out infinite alternate; /* Moves with the table */
+        }
+
+        .rope-left { left: 25%; }
+        .rope-right { left: 75%; }
+
+        /* Table Floating Animation */
+        table {
+            width: 60%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            background-color: #fff;
+            position: relative;
+            z-index: 1; /* Ensures table stays above the ropes */
+            animation: floatEffect 3s ease-in-out infinite alternate; /* Moves with ropes */
+        }
+
+        table th, table td {
+            padding: 15px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        table thead {
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: white;
+            text-transform: uppercase;
+        }
+
+        table tbody tr:hover {
+            background: #f4f4f9;
+        }
+
+        h2 {
+            font-size: 30px;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .go-to-parking {
+            display: inline-block;
+            padding: 15px 30px;
+            margin-top: 40px;
+            text-decoration: none;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.3s ease;
+        }
+
+        .go-to-parking:hover {
+            background-color: #0056b3;
+            transform: scale(1.1);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #f1f1f1;
+            border-top: 1px solid #ccc;
+            margin-top: 40px;
+        }
+
+        /* Floating Animation */
+        @keyframes floatEffect {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(-1deg); } /* Moves up slightly */
+            100% { transform: translateY(0px) rotate(0deg); } /* Returns to original position */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <img src="{% static 'img/headicon.gif' %}" alt="Smart Parking" class="navbar-icon">
+        <h2 class="navbar-title"><a href="#">Hospital Parking</a></h2>
+
+        <div class="welcome-message">
+            {% if request.session.name %}
+            <span class="highlighted-email">Welcome, {{ request.session.name }}!</span><br>
+            <span>{{ request.session.email }}</span>
+            {% else %}
+            <span>Please log in</span>
+            {% endif %}
+        </div>
+
+        <a href="{% url 'adminlogout' %}" class="logout">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+    </div>
+
+    <br>
+    <div class="container mt-4" style="text-align: center;">
+        <h2>Hospital Parking Fare Structure</h2>
+        <p>Below are the parking charges for different categories.</p>
+
+        <div class="hanging-table-container">
+            <!-- Ropes behind the navbar -->
+            <div class="rope rope-left"></div>
+            <div class="rope rope-right"></div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Vehicle Type</th>
+                        <th>Category</th>
+                        <th>Base Fare</th>
+                        <th>Additional Charges</th>
+                        <th>Total Fare (₹)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Patient category - Free Parking -->
+                    <tr>
+                        <td>2-Wheeler</td>
+                        <td>Patient</td>
+                        <td style="color: green; font-weight: bold;">₹0</td>
+                        <td>₹0</td>
+                        <td style="color: green; font-weight: bold;">₹0</td>
+                    </tr>
+                    <tr>
+                        <td>4-Wheeler</td>
+                        <td>Patient</td>
+                        <td style="color: green; font-weight: bold;">₹0</td>
+                        <td>₹0</td>
+                        <td style="color: green; font-weight: bold;">₹0</td>
+                    </tr>
+
+                    <!-- Staff category - Free Parking -->
+                    <tr>
+                        <td>2-Wheeler</td>
+                        <td>Staff</td>
+                        <td style="color: green; font-weight: bold;">₹0</td>
+                        <td>₹0</td>
+                        <td style="color: green; font-weight: bold;">₹0</td>
+                    </tr>
+                    <tr>
+                        <td>4-Wheeler</td>
+                        <td>Staff</td>
+                        <td style="color: green; font-weight: bold;">₹0</td>
+                        <td>₹0</td>
+                        <td style="color: green; font-weight: bold;">₹0</td>
+                    </tr>
+
+                    <!-- VIP category - Paid Parking -->
+                    <tr>
+                        <td>2-Wheeler</td>
+                        <td>VIP</td>
+                        <td>₹40 for 2 hours</td>
+                        <td>₹20 for every additional hour</td>
+                        <td>₹40 + ₹20 (after 2 hours)</td>
+                    </tr>
+                    <tr>
+                        <td>4-Wheeler</td>
+                        <td>VIP</td>
+                        <td>₹60 for 2 hours</td>
+                        <td>₹30 for every additional hour</td>
+                        <td>₹60 + ₹30 (after 2 hours)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <a href="{%url 'hospitalparkigentry'%}" class="go-to-parking"><i class="fas fa-parking"></i> Proceed to Parking</a>
+    </div>
+
+    <footer>
+        <span>&copy; Automated Hospital Parking. All rights reserved.</span>
+    </footer>
+</body>
+
+</html>

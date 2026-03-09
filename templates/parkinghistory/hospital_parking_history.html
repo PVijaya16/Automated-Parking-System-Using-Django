@@ -1,0 +1,311 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Parking History</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/studentregistration.css' %}">
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fc;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1, h2, h3, h4 {
+            text-align: center;
+            color: #333;
+            margin-top: 20px;
+        }
+
+        h2 {
+            margin-bottom: 10px;
+            padding: 10px 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #f1f1f1;
+            border-top: 1px solid #ccc;
+            margin-top: auto;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            align-items: center;
+            background-color: #f8f9fa;
+            padding: 10px 20px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .navbar img {
+            width: 50px;
+            margin-right: 20px;
+        }
+
+        .navbar-title {
+            font-size: 24px;
+            margin: 0;
+        }
+
+        .navbar .go-back-btn,
+        .navbar .logout {
+            margin-left: auto;
+            text-decoration: none;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .navbar .go-back-btn {
+            background-color: #4CAF50;
+        }
+
+        .navbar .go-back-btn:hover {
+            background-color: #45a049;
+        }
+
+        .navbar .logout {
+            background-color: #dc3545;
+        }
+
+        .navbar .logout:hover {
+            background-color: #c82333;
+        }
+
+        .navbar .go-back-btn i,
+        .navbar .logout i {
+            margin-right: 8px;
+        }
+
+        .time-display {
+            margin-left: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        /* Table Styles */
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            border: 1px solid #ddd;
+            background-color: white;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Empty message */
+        p {
+            text-align: center;
+            color: #555;
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <img src="{% static 'img/headicon.gif' %}" alt="Parking Icon" class="navbar-icon">
+        <h2 class="navbar-title"><a href="#">Automated Parking</a></h2>
+
+        <a href="javascript:history.back()" class="go-back-btn">
+            <i class="fas fa-arrow-left"></i> Go Back
+        </a>
+
+        <div id="time" class="time-display"></div>
+
+        <a href="{% url 'adminlogout' %}" class="logout">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+    </div>
+
+    <h1>Hospital Parking History</h1>
+
+    <!-- Staff Parking -->
+    {% if staff_2w or staff_4w %}
+        <h2>Staff Parking</h2>
+
+        {% if staff_2w %}
+        <h4>2-Wheelers</h4>
+        <table>
+            <thead>
+                <tr>
+                    <th>Slot ID</th>
+                    <th>Vehicle Number</th>
+                    <th>Entry Time</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in staff_2w %}
+                <tr>
+                    <td>{{ record.slot_id }}</td>
+                    <td>{{ record.vehicle_number }}</td>
+                    <td>{{ record.entry_time }}</td>
+                    <td style="color: green;">Occupied</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+
+        {% if staff_4w %}
+        <h4>4-Wheelers</h4>
+        <table>
+            <thead>
+                <tr>
+                    <th>Slot ID</th>
+                    <th>Vehicle Number</th>
+                    <th>Entry Time</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in staff_4w %}
+                <tr>
+                    <td>{{ record.slot_id }}</td>
+                    <td>{{ record.vehicle_number }}</td>
+                    <td>{{ record.entry_time }}</td>
+                    <td style="color: green;">Occupied</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+    {% endif %}
+
+    <!-- Patient Parking -->
+    {% if patient_2w or patient_4w %}
+        <h2>Patient Parking</h2>
+
+        {% if patient_2w %}
+        <h4>2-Wheelers</h4>
+        <table>
+            <thead>
+                <tr>
+                    <th>Slot ID</th>
+                    <th>Vehicle Number</th>
+                    <th>Entry Time</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in patient_2w %}
+                <tr>
+                    <td>{{ record.slot_id }}</td>
+                    <td>{{ record.vehicle_number }}</td>
+                    <td>{{ record.entry_time }}</td>
+                    <td style="color: green;">Occupied</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+
+        {% if patient_4w %}
+        <h4>4-Wheelers</h4>
+        <table>
+            <thead>
+                <tr>
+                    <th>Slot ID</th>
+                    <th>Vehicle Number</th>
+                    <th>Entry Time</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in patient_4w %}
+                <tr>
+                    <td>{{ record.slot_id }}</td>
+                    <td>{{ record.vehicle_number }}</td>
+                    <td>{{ record.entry_time }}</td>
+                    <td style="color: green;">Occupied</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+    {% endif %}
+
+    <!-- VIP Parking -->
+    {% if vip_2w or vip_4w %}
+        <h2>VIP Parking</h2>
+
+        {% if vip_2w %}
+        <h4>2-Wheelers</h4>
+        <table>
+            <thead>
+                <tr>
+                    <th>Slot ID</th>
+                    <th>Vehicle Number</th>
+                    <th>Entry Time</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in vip_2w %}
+                <tr>
+                    <td>{{ record.slot_id }}</td>
+                    <td>{{ record.vehicle_number }}</td>
+                    <td>{{ record.entry_time }}</td>
+                    <td style="color: green;">Occupied</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+
+        {% if vip_4w %}
+        <h4>4-Wheelers</h4>
+        <table>
+            <thead>
+                <tr>
+                    <th>Slot ID</th>
+                    <th>Vehicle Number</th>
+                    <th>Entry Time</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in vip_4w %}
+                <tr>
+                    <td>{{ record.slot_id }}</td>
+                    <td>{{ record.vehicle_number }}</td>
+                    <td>{{ record.entry_time }}</td>
+                    <td style="color: green;">Occupied</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+    {% endif %}
+</body>
+</html>

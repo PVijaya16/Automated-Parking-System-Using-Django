@@ -1,0 +1,220 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automated Vehicle | PORTAL</title>
+    <link rel="stylesheet" href="{% static 'css/studentregistration.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* Additional styles */
+        .highlighted-email {
+            color: #007bff;
+            font-weight: bold;
+            margin-left: auto;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #f1f1f1;
+            border-top: 1px solid #ccc;
+            margin-top: auto;
+        }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            background-color: #f8f9fa;
+            padding: 10px 20px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .navbar img {
+            width: 50px;
+            margin-right: 20px;
+        }
+
+        .navbar-title {
+            font-size: 24px;
+            margin: 0;
+        }
+
+        .navbar .navbar-buttons {
+            display: flex;
+            margin-left: auto;
+            /* Move the buttons to the right */
+            gap: 20px;
+            /* Add spacing between the buttons */
+        }
+
+        .navbar .home,
+        .navbar .logout,
+        .navbar .login,
+        .navbar .admin-login {
+            text-decoration: none;
+            color: #007bff;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .navbar .logout {
+            display: flex;
+            align-items: center;
+            background-color: #e2e6ea;
+        }
+
+        .navbar .logout:hover,
+        .navbar .login:hover,
+        .navbar .admin-login:hover {
+            background-color: #d6d8db;
+        }
+
+        .welcome-message {
+            margin-left: 20px;
+            padding-left: 20px;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #333;
+            background-color: #f8f9fa;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            width: 120px;
+            margin: 10px;
+            transition: background-color 0.3s, transform 0.3s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .button:hover {
+            background-color: #e2e6ea;
+            transform: scale(1.05);
+        }
+
+        .button img {
+            width: 40px;
+            margin-bottom: 10px;
+        }
+
+        /* Specific button styles */
+        .register-button {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .register-button:hover {
+            background-color: #218838;
+            transform: scale(1.1);
+        }
+
+        .admin-login-button {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .admin-login-button:hover {
+            background-color: #0056b3;
+            transform: scale(1.1);
+        }
+
+        /* Parking Button Styles */
+        .open-parking {
+            background-color: #fd7e14;
+            color: white;
+        }
+
+        .open-parking:hover {
+            background-color: #e67e00;
+            transform: scale(1.1);
+        }
+
+        .mall-parking {
+            background-color: #17a2b8;
+            color: white;
+        }
+
+        .mall-parking:hover {
+            background-color: #138496;
+            transform: scale(1.1);
+        }
+
+        .hospital-parking {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .hospital-parking:hover {
+            background-color: #c82333;
+            transform: scale(1.1);
+        }
+
+        .college-parking {
+            background-color: #ffc107;
+            color: white;
+        }
+
+        .college-parking:hover {
+            background-color: #e0a800;
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <img src="{% static 'img/headicon.gif' %}" alt="Automated Parking" class="navbar-icon">
+        <h2 class="navbar-title"><a href="#">Automated Parking</a></h2>
+        
+        <!-- Add Register, Login, Admin Login links here -->
+        <div class="navbar-buttons">
+            <a href="{% url 'registercheck' %}" class="home register-button">Register</a>
+            <a href="{%url 'userlogin'%}" class="logout admin-login-button">
+                <i class="fas fa-sign-out-alt"></i> User login 
+            </a>
+            <a href="{% url 'AdminLogin' %}" class="logout admin-login-button">
+                <i class="fas fa-sign-out-alt"></i> Admin login
+            </a>
+        </div>
+    </div>
+    <br><br>
+    <div class="container mt-4" style="flex-grow: 1; text-align: center;">
+        <h2>Choose an Action</h2>
+        <div class="button-container">
+            <a href="{%url 'parkinglogincheck'%}" class="button open-parking">
+                <img src="{% static 'img/open.gif' %}" alt="Open Parking">
+                Open Parking
+            </a>
+
+            <a href="{%url 'parkinglogincheck'%}" class="button hospital-parking">
+                <img src="{% static 'img/hospital.gif' %}" alt="Hospital Parking">
+                Hospital Parking
+            </a>
+            <a href="{%url 'parkinglogincheck'%}" class="button college-parking">
+                <img src="{% static 'img/college.gif' %}" alt="College Parking">
+                College Parking
+            </a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <span>&copy; Automated Vehicle Parking. All rights reserved.</span>
+    </footer>
+
+</body>
+
+</html>

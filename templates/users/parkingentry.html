@@ -1,0 +1,266 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parking Entry Panel</title>
+    <link rel="stylesheet" href="{% static 'css/studentregistration.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #f1f1f1;
+            border-top: 1px solid #ccc;
+            margin-top: auto;
+        }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            background-color: #f8f9fa;
+            padding: 10px 20px;
+            border-bottom: 1px solid #ccc;
+            justify-content: space-between;
+            /* Distribute the space between the items */
+        }
+
+        .navbar img {
+            width: 50px;
+            margin-right: 20px;
+        }
+
+        .navbar-title {
+            font-size: 24px;
+            margin: 0;
+            flex-grow: 1;
+            /* This will make sure the title takes available space */
+        }
+
+        .navbar .home,
+        .navbar .logout {
+            text-decoration: none;
+            color: #007bff;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar .home {
+            background-color: #28a745;
+        }
+
+        .navbar .home:hover {
+            background-color: #218838;
+        }
+
+        .navbar .logout {
+            background-color: #e2e6ea;
+        }
+
+        .navbar .logout:hover {
+            background-color: #d6d8db;
+        }
+
+        .navbar .home i,
+        .navbar .logout i {
+            margin-right: 8px;
+        }
+
+        .welcome-message {
+            margin-left: 20px;
+            padding-left: 20px;
+        }
+
+        .time-display {
+            margin-left: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-evenly;
+            margin-top: 40px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        /* Reduced width of the buttons */
+        .button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #fff;
+            background-color: #f8f9fa;
+            border: 1px solid transparent;
+            border-radius: 12px;
+            padding: 25px;
+            width: 100px;
+            /* Width reduced to 100px */
+            height: 140px;
+            /* Increased height for better appearance */
+            box-sizing: border-box;
+            margin: 15px;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Profile Button */
+        .home-button {
+            background: linear-gradient(135deg, #8e44ad, #9b59b6);
+        }
+
+        .home-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .home-button img {
+            width: 45px;
+            height: 45px;
+            margin-bottom: 15px;
+        }
+
+        /* Open Parking Entry Button */
+        .registered-users {
+            background: linear-gradient(135deg, #2980b9, #3498db);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .registered-users:hover {
+            background: linear-gradient(135deg, #1f65a2, #2c87d1);
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .registered-users img {
+            width: 45px;
+            height: 45px;
+            margin-bottom: 15px;
+        }
+
+        /* College Parking Entry Button */
+        .add-routes {
+            background: linear-gradient(135deg, #e67e22, #f39c12);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .add-routes:hover {
+            background: linear-gradient(135deg, #d35400, #e67c00);
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .add-routes img {
+            width: 45px;
+            /* Set width to 45px */
+            height: 45px;
+            /* Set height to 45px */
+            margin-bottom: 15px;
+        }
+
+        .button-container a {
+            flex: 1 0 100px;
+            /* Ensured buttons are displayed with reduced width */
+            display: flex;
+            justify-content: center;
+        }
+
+        .highlighted-email {
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        h2 {
+            font-size: 30px;
+            color: #333;
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <img src="{% static 'img/headicon.gif' %}" alt="Smart Bus Pass" class="navbar-icon">
+        <h2 class="navbar-title"><a href="#">Automated Parking</a></h2>
+
+        <div class="welcome-message">
+            {% if request.session.name %}
+            <span class="highlighted-email">Welcome, {{ request.session.name }}!</span><br>
+            <span>{{ request.session.email }}</span>
+            {% else %}
+            <span>Please log in</span>
+            {% endif %}
+        </div>
+
+        <!-- Display the current time here -->
+        <div id="time" class="time-display"></div>
+        <a href="#" class="home">
+            <i class="fas fa-home"></i> Home
+        </a>
+
+        <a href="{% url 'adminlogout' %}" class="logout">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+    </div>
+
+    <br>
+    <div class="container mt-4" style="text-align: center;">
+        <h2>Welcome, {{ request.session.name }}!</h2>
+        <div class="button-container">
+            <a href="{% url 'userprofile' %}" class="button home-button">
+                <img src="{% static 'img/7733361.png' %}" alt="Profile">
+
+                Profile
+            </a>
+            <a href="{% url 'openparkingfare' %}" class="button registered-users">
+                <img src="{% static 'img/18241131.png' %}" alt="Open Parking Entry">
+                Open Parking Entry
+            </a>
+            <a href="{% url 'collegefare' %}" class="button add-routes">
+                <img src="{% static 'img/4838409.png' %}" alt="College Parking Entry">
+                College Parking Entry
+            </a>
+            
+            <a href="{% url 'hospitalfare' %}" class="button add-routes">
+                <img src="{% static 'img/14473920.png' %}" alt="College Parking Entry">
+                Hospital Parking Entry
+            </a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <span>&copy; Automated Vehicle Parking. All rights reserved.</span>
+    </footer>
+
+    <script>
+        function updateIST() {
+            var now = new Date();
+
+            // Convert current time to Indian Standard Time (IST)
+            var options = {
+                timeZone: 'Asia/Kolkata', // IST time zone
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            };
+
+            var istTime = new Intl.DateTimeFormat('en-GB', options).format(now);
+            document.getElementById('time').textContent = istTime + ' [IST]';
+        }
+
+        // Update time every second
+        setInterval(updateIST, 1000);
+        updateIST(); //
+    </script>
+</body>
+
+</html>
